@@ -1,11 +1,11 @@
 .Item {
-  padding: 10px;
   display: flex;
   flex-flow: row nowrap;
+  align-items: center;
 }
 
 .Item div {
   text-align: left;
   width: 100%;
-  padding: 0 5px;
+  padding: 10px;
 }

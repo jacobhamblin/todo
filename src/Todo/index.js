@@ -8,17 +8,12 @@ class Todo extends PureComponent {
     this.state = {id: 2, items: {1: this.newItem(1)}};
   }
   newItem = (id) => {
-    return {id, completed: false, name: 'name', canEdit: false};
+    return {id, completed: false, name: 'name'};
   }
   addNewItem = () => {
     const { id, items } = this.state;
     items[id] = this.newItem(id);
     this.setState({items, id: id + 1});
-  }
-  toggleCanEdit = (id) => {
-    const { items } = this.state;
-    items[id].canEdit = !items[id].canEdit;
-    this.setState({ items });
   }
   toggleCompleted = (id) => {
     const { items } = this.state;
@@ -28,15 +23,10 @@ class Todo extends PureComponent {
   changeName = (id, name) => {
     const { items } = this.state;
     items[id].name = name;
-    console.log(`${id} has a new name ${name}`);
     this.setState({ items });
   }
   render() {
-    const props = {
-      toggleCompleted: this.toggleCompleted,
-      changeName: this.changeName,
-      toggleCanEdit: this.toggleCanEdit,
-    };
+    const props = { toggleCompleted: this.toggleCompleted, changeName: this.changeName, };
     const { items } = this.state;
     return (
       <div className='Todo'>
