@@ -1,0 +1,22 @@
+.Todo {
+  padding: 10px;
+  font-size: 16px;
+  width: 500px;
+  margin: 0 auto;
+}
+
+.Todo__items-list {
+  padding: 5px;
+  width: 100%;
+  list-style-type: none;
+}
+
+.Todo__items-list li {
+}
+
+.Todo__new-item {
+  background-color: white;
+  padding: 10px 20px;
+  color: #333;
+  cursor: pointer;
+}
