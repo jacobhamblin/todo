@@ -3,18 +3,7 @@ import Item from './Item';
 import './Todo.css';
 
 class Todo extends PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {id: 1, showCompleted: false, newItemName: '', items: {}};
-  }
-  newItem = (id) => {
-    return {id, completed: false, name: 'name'};
-  }
-  addNewItem = () => {
-    const { id, items } = this.state;
-    items[id] = this.newItem(id);
-    this.setState({items, id: id + 1});
-  }
+  state = {id: 1, showCompleted: false, newItemName: '', items: {}};
   toggleCompleted = (id) => {
     const { items } = this.state;
     const newItems = {...items}
@@ -25,25 +14,28 @@ class Todo extends PureComponent {
     const { showCompleted } = this.state;
     this.setState({showCompleted: !showCompleted});
   }
-  changeName = (id, name) => {
-    const { items } = this.state;
-    const newItems = {...items}
-    newItems[id].name = name;
-    this.setState({ items: newItems });
-  }
   submitItem = () => {
     const { id, items, newItemName } = this.state;
     const newItems = {...items};
     newItems[id] = {completed: false, id, name: newItemName};
-    this.setState({newItemName: '', items: newItems});
+    this.setState({newItemName: '', items: newItems, id: id + 1 });
   }
-  render() {
+  getVisibleItems = () => {
     const props = {
-      addNewItem: this.addNewItem,
-      changeName: this.changeName,
       toggleCompleted: this.toggleCompleted,
     };
-    const { items, newItemName, showCompleted } = this.state;
+    const {items, showCompleted} = this.state;
+    const visibleItems = [];
+    Object.keys(items).forEach(id => {
+      if (!items[id].completed || showCompleted) {
+        const newProps = {...props, ...items[id], id, key: id};
+        visibleItems.push(<Item {...newProps} />)
+      }
+    });
+    return visibleItems;
+  }
+  render() {
+    const { newItemName, showCompleted } = this.state;
     const completedText = showCompleted ? 'Hide Completed' : 'Show Completed'
     return (
       <div className='Todo'>
@@ -53,6 +45,7 @@ class Todo extends PureComponent {
             className='Todo__new-item__name'
             placeholder='What do you need to do?'
             onChange={(e) => this.setState({newItemName: e.target.value})}
+            onKeyPress={(e) => {if (e.key === 'Enter') this.submitItem()}}
             value={newItemName}
           />
           <button
@@ -63,10 +56,7 @@ class Todo extends PureComponent {
           </button>
         </div>
         <ul className='Todo__items-list'>
-          {Object.keys(items).map(id => {
-            const newProps = {...props, ...items[id], id, key: id};
-            return <Item {...newProps} />
-          })}
+          {this.getVisibleItems()}
         </ul>
         <div className='Todo__buttons'>
           <button className='Todo__show-completed' onClick={() => this.toggleShowCompleted()}>{completedText}</button>

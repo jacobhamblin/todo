@@ -1,11 +1,9 @@
 .Item {
-  display: flex;
-  flex-flow: row nowrap;
-  align-items: center;
-}
-
-.Item div {
+  font-size: 16px;
   text-align: left;
-  width: 100%;
   padding: 10px;
+  background-color: #61dafb;
+  color: #333;
+  cursor: pointer;
+  margin-bottom: 10px;
 }
