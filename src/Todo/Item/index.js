@@ -4,10 +4,8 @@ import './Item.css';
 const Item = ({id, completed, name, toggleCompleted}) => {
   const style = completed ? {backgroundColor: '#00FF00'} : undefined;
   return (
-    <li className='Item' style={style}>
-      <div onClick={() => {toggleCompleted(id)}}>
-        {name}
-      </div>
+    <li className='Item' style={style} onClick={() => {toggleCompleted(id)}}>
+      {name}
     </li>
   );
 }
